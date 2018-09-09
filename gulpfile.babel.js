@@ -20,7 +20,7 @@ gulp.task("default", (cb) => {
 });
 
 gulp.task("build", (cb) => {
-  run("clean", "lint", "flow", "babel", "coverage", "reporter", "restart", cb);
+  run("clean", "lint", "babel", "restart", cb);
 });
 
 gulp.task("clean", (cb) => {
