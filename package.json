@@ -24,11 +24,12 @@
   },
   "homepage": "https://gitlab.com/onboard.academy/oacademy-engine#README",
   "dependencies": {
-    "express": "4.16.3",
-    "mongoose": "5.1.7",
     "bcryptjs": "2.4.3",
     "body-parser": "1.18.3",
-    "jsonwebtoken": "8.3.0"
+    "express": "4.16.3",
+    "jsonwebtoken": "8.3.0",
+    "mongodb": "^3.1.4",
+    "mongoose": "5.1.7"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
