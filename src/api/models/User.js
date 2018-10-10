@@ -30,23 +30,14 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre("save", function a(next) {
   const self = this;
-  console.log("hereee");
-  console.log(self);
-  console.log(next);
-  console.log("heree222");
   bcrypt.hash(self.password, 10, (err, hash) => {
     if (err) return next(err);
-    console.log("heree333");
-    console.log(hash);
     self.password = hash;
-    console.log("heree444");
     next();
-    console.log("heree555");
   });
 });
 
 UserSchema.methods.comparePassword = function compare(password) {
-  console.log("PASSOWRD MATCH", password, this.password);
   return bcrypt.compareSync(password, this.password);
 };
 

@@ -6,13 +6,10 @@ export function sign(email, id) {
 }
 
 export function verify(token) {
-  console.log("token", token);
   const response = jwt.verify(token, config.secret, (err, decoded) => {
-    console.log("errr", err, decoded);
     if (err) {
       return { isVerified: false, decoded: null };
     }
-    console.log("FINALLLL");
     return { isVerified: true, decoded };
   });
   return response;

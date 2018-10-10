@@ -44,13 +44,6 @@ export default {
   },
 
   users(req, res) {
-    try {
-      const results = User.find({}).exec((err, users) => {
-        console.log(users);
-        res.json(users);
-      });
-    } catch (err) {
-      throw err;
-    }
+    res.json({ users: "users" });
   },
 };
