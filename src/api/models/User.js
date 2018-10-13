@@ -8,6 +8,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
@@ -39,6 +43,13 @@ UserSchema.pre("save", function a(next) {
 
 UserSchema.methods.comparePassword = function compare(password) {
   return bcrypt.compareSync(password, this.password);
+};
+
+UserSchema.methods.getUserDetails = function getUserDetails() {
+  return {
+    name: this.name,
+    email: this.email,
+  };
 };
 
 export default mongoose.model("User", UserSchema);

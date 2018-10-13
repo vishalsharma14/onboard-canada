@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 
 import config from "./config";
 import router from "./api/routes";
@@ -9,6 +10,13 @@ import router from "./api/routes";
 dotenv.load();
 
 const app = express();
+
+app.use(cors());
+
+// app.use(cors({
+//   origin: "http://yourapp.com",
+// }));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
