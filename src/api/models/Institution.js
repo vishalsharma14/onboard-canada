@@ -11,4 +11,6 @@ const InstitutionSchema = new mongoose.Schema({
   },
 });
 
+InstitutionSchema.index({ name: 1, location: 1 }, { unique: true });
+
 export default mongoose.model("Institution", InstitutionSchema);

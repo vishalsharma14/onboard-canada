@@ -15,4 +15,6 @@ const LocationSchema = new mongoose.Schema({
   },
 });
 
+LocationSchema.index({ city: 1, province: 1, country: 1 }, { unique: true });
+
 export default mongoose.model("Location", LocationSchema);

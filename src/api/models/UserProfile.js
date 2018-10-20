@@ -10,8 +10,15 @@ const UserProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
+    unique: true,
   },
   mobile: {
+    type: String,
+  },
+  program: {
+    type: String,
+  },
+  session: {
     type: String,
   },
   institution: {

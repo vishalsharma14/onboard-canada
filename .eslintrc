@@ -1,19 +1,30 @@
 {
-    "parser": "babel-eslint",
-    "env": {
-      "mocha": true    
-    },
-    "extends": ["airbnb", "plugin:flowtype/recommended"],
-    "plugins": [
-      "react",
-      "jsx-a11y",
-      "import",
-      "flowtype",
-      "chai-expect",
-      "prettier"
+  "parser": "babel-eslint",
+  "env": {
+    "mocha": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
+  ],
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "flowtype",
+    "chai-expect",
+    "prettier"
+  ],
+  "rules": {
+    "quotes": [
+      "error",
+      "double"
     ],
-    "rules": {
-      "quotes": ["error", "double"]
-    }
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ]
   }
-  
+}
