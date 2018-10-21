@@ -30,9 +30,10 @@ export default {
       if (err) {
         throw err;
       } else {
-        if (requestData.mobile) {
-          userProfile.mobile = requestData.mobile;
-        }
+        userProfile.mobile = requestData.mobile ? requestData.mobile : userProfile.mobile;
+        // if (requestData.mobile) {
+        //   userProfile.mobile = requestData.mobile;
+        // }
         if (requestData.origin) {
           userProfile.origin = requestData.origin;
         }
