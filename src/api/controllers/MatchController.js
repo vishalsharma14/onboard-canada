@@ -4,7 +4,8 @@ import UserProfile from "../models/UserProfile";
 const getMatchedResults = (userProfile, userProfiles, res) => {
   let results = [];
   userProfiles.map((userProfileObj) => {
-    if (userProfileObj.institution && userProfileObj.origin) {
+    if (userProfileObj.institution && userProfileObj.origin
+      && userProfile.institution && userProfile.origin) {
       const userObj = {
         id: userProfileObj.user.id,
         name: userProfileObj.user.name,
@@ -35,6 +36,12 @@ const getMatchedResults = (userProfile, userProfiles, res) => {
             userObj.score += 0.5;
           }
         }
+      }
+      if (userProfileObj.program === userProfile.program) {
+        userObj.score += 2;
+      }
+      if (userProfileObj.session === userProfile.session) {
+        userObj.score += 2;
       }
       results.push(userObj);
     }

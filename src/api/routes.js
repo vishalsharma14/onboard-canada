@@ -1,11 +1,12 @@
 import express from "express";
 
+import authenticate from "./middlewares/authenticate";
+import BuddyController from "./controllers/BuddyController";
 import InstitutionController from "./controllers/InstitutionController";
 import LocationController from "./controllers/LocationController";
 import MatchController from "./controllers/MatchController";
 import UserController from "./controllers/UserController";
 import UserProfileController from "./controllers/UserProfileController";
-import authenticate from "./middlewares/authenticate";
 
 const router = express.Router();
 
@@ -34,5 +35,15 @@ router.get("/profile", UserProfileController.getProfile);
 router.post("/update-profile", UserProfileController.updateProfile);
 
 router.get("/matches", MatchController.getMatches);
+
+router.get("/sent-invitations", BuddyController.getSentInvitations);
+
+router.get("/pending-invitations", BuddyController.getPendingInvitations);
+
+router.route("/buddy")
+  .get(BuddyController.getBuddies)
+  .post(BuddyController.addBuddy)
+  .patch(BuddyController.updateBuddy)
+  .delete(BuddyController.removeBuddy);
 
 export default router;

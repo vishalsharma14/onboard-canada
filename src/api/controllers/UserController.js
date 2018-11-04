@@ -15,6 +15,7 @@ export default {
     user.email = req.body.email;
     user.password = req.body.password;
     user.name = req.body.name;
+    res.statusCode = 400;
     if (req.body.email == null || req.body.email === ""
       || req.body.password == null || req.body.password === ""
       || req.body.name == null || req.body.name === "") {
@@ -26,6 +27,7 @@ export default {
         } else {
           const token = sign(user.email, user.id);
           createUserProfile(user);
+          res.statusCode = 201;
           res.json({ success: true, message: "User Successfully created.", token });
         }
       });
@@ -61,6 +63,15 @@ export default {
   },
 
   users(req, res) {
-    res.json({ users: "users" });
+    User.find({})
+      .exec((err, users) => {
+        res.statusCode = 401;
+        if (err) {
+          throw err;
+        } else {
+          res.json(users);
+        }
+      });
   },
+
 };

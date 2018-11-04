@@ -43,6 +43,8 @@ export default {
         if (requestData.facebookUrl) {
           userProfile.facebookUrl = requestData.facebookUrl;
         }
+        userProfile.program = requestData.program ? requestData.program : userProfile.program;
+        userProfile.session = requestData.session ? requestData.session : userProfile.session;
         userProfile.save((error) => {
           if (error) {
             throw error;
