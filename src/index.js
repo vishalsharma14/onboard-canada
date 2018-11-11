@@ -20,7 +20,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.listen(process.env.PORT || config.port);
 
 app.use("/", router);
 
@@ -31,19 +30,26 @@ process.on("uncaughtException", (err) => {
   // TODO: Add error handler/ reporting
 });
 
+
 // MongoDB
-
 const dbUser = process.env.MONGO_USER;
-// const dbPassword = encodeURIComponent(process.env.MONGO_PASSWORD);
-console.log(dbUser, "DB USERRR");
-// mongoose.connect(`mongodb://${dbUser}:${dbPassword}@ds125453.mlab.com:25453/onboard-mongo`);
-// mongoose.set("debug", true);
+const dbPassword = encodeURIComponent(process.env.MONGO_PASSWORD);
+const dbHost = process.env.DATABASE_HOST;
+const dbName = process.env.DATABASE_NAME;
 
-mongoose.connect("mongodb://localhost:27017/oacademy", (err, data) => {
+const dbCredentials = dbUser ? `${dbUser}:${dbPassword}@` : "";
+
+mongoose.connect(`mongodb://${dbCredentials}${dbHost}/${dbName}`, (err, data) => {
   if (err) {
     console.error(err);
   } else {
-    // console.log(data);
+    console.log("MONGODB CONNECTION SUCCESSFUL!");
   }
 });
-mongoose.set("debug", true);
+
+// Debug mode for Mongo DB
+if (process.env.DEVELOPMENT) {
+  mongoose.set("debug", true);
+}
+
+app.listen(process.env.PORT || config.port);
