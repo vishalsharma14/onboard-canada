@@ -28,6 +28,9 @@ const UserProfileSchema = new mongoose.Schema({
   facebookUrl: {
     type: String,
   },
+  profilePic: {
+    type: String,
+  },
 });
 
 export default mongoose.model("UserProfile", UserProfileSchema);

@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
-const PENDING_STATUS = "Pending";
-const APPROVED_STATUS = "Approved";
-const REJECTED_STATUS = "Rejected";
-const REMOVED_STATUS = "Removed";
+import { BUDDY_STATUS } from "../constants";
 
 
 const BuddySchema = new mongoose.Schema({
@@ -18,7 +15,7 @@ const BuddySchema = new mongoose.Schema({
   status: {
     type: mongoose.Schema.Types.String,
     required: true,
-    default: PENDING_STATUS,
+    default: BUDDY_STATUS.PENDING_STATUS,
   },
 });
 

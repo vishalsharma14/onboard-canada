@@ -1,27 +1,21 @@
 import Buddy from "../models/Buddy";
 import UserProfile from "../models/UserProfile";
+import { BUDDY_STATUS } from "../constants";
 
-
-const APPROVED_STATUS = "Approved";
-const PENDING_STATUS = "Pending";
-const REJECTED_STATUS = "Rejected";
-const REMOVED_STATUS = "Removed";
-
-
-const userHasBuddyPermission = (userId => Buddy.find({ user: userId })
-  .exec((err, buddies) => {
-    if (err) {
-      throw err;
-    } else {
-      return true;
-    }
-  }));
+// const userHasBuddyPermission = (userId => Buddy.find({ user: userId })
+//   .exec((err, buddies) => {
+//     if (err) {
+//       throw err;
+//     } else {
+//       return true;
+//     }
+//   }));
 
 export default {
 
   getSentInvitations(req, res) {
     const userId = req.decoded.id;
-    Buddy.find({ user: userId, status: PENDING_STATUS })
+    Buddy.find({ user: userId, status: BUDDY_STATUS.PENDING_STATUS })
       .exec((err, buddies) => {
         if (err) {
           throw err;
@@ -63,7 +57,7 @@ export default {
 
   getPendingInvitations(req, res) {
     const userId = req.decoded.id;
-    Buddy.find({ addedUser: userId, status: PENDING_STATUS })
+    Buddy.find({ addedUser: userId, status: BUDDY_STATUS.PENDING_STATUS })
       .exec((err, buddies) => {
         if (err) {
           throw err;
@@ -107,7 +101,7 @@ export default {
     const userId = req.decoded.id;
     Buddy.find({
       $or: [{ addedUser: userId }, { user: userId }],
-      status: APPROVED_STATUS,
+      status: BUDDY_STATUS.APPROVED_STATUS,
     })
       .exec((err, buddies) => {
         if (err) {
@@ -171,7 +165,7 @@ export default {
   updateBuddy(req, res) {
     const { buddyId, status } = req.body;
     res.statusCode = 400;
-    const validStatusList = [APPROVED_STATUS, REJECTED_STATUS];
+    const validStatusList = [BUDDY_STATUS.APPROVED_STATUS, BUDDY_STATUS.REJECTED_STATUS];
     // console.log("PERMISSION", userHasBuddyPermission(req.decoded.id));
     // if (!userHasBuddyPermission(req.decoded.id)) {
     //   res.status(401).json({ success: false, message: "Permission Denied!" });
@@ -201,7 +195,7 @@ export default {
       res.json({ success: false, message: "Values missing." });
     } else {
       Buddy.findOneAndUpdate({ _id: buddyId },
-        { status: REMOVED_STATUS })
+        { status: BUDDY_STATUS.REMOVED_STATUS })
         .exec((err, buddies) => {
           if (err) {
             throw err;
@@ -211,6 +205,5 @@ export default {
         });
     }
   },
-
 
 };

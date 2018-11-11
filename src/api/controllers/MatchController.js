@@ -1,3 +1,4 @@
+import Buddy from "../models/Buddy";
 import UserProfile from "../models/UserProfile";
 
 
@@ -59,20 +60,18 @@ export default {
 
   getMatches(req, res) {
     const userId = req.decoded.id.toString();
-    UserProfile.findOne({ user: userId })
-      .populate("origin")
-      .populate({
-        path: "institution",
-        populate: {
-          path: "location",
-        },
-      })
-      .exec((err, userProfile) => {
-        if (err) {
-          throw err;
+    Buddy.find({ $or: [{ addedUser: userId }, { user: userId }] })
+      .exec((errorObj, buddies) => {
+        if (errorObj) {
+          throw errorObj;
         } else {
-          UserProfile.find({ user: { $ne: userId } })
-            .populate({ path: "user", select: "name email" })
+          const userIdList = buddies.map((buddy) => {
+            if (buddy.user.toString() === userId) {
+              return buddy.addedUser;
+            }
+            return buddy.user;
+          });
+          UserProfile.findOne({ user: userId })
             .populate("origin")
             .populate({
               path: "institution",
@@ -80,12 +79,27 @@ export default {
                 path: "location",
               },
             })
-            .exec((error, userProfiles) => {
-              if (error) {
-                throw error;
+            .exec((err, userProfile) => {
+              if (err) {
+                throw err;
               } else {
-                getMatchedResults(userProfile, userProfiles, res);
-                // res.json({ userProfiles });
+                userIdList.push(userId);
+                UserProfile.find({ user: { $nin: userIdList } })
+                  .populate({ path: "user", select: "name email" })
+                  .populate("origin")
+                  .populate({
+                    path: "institution",
+                    populate: {
+                      path: "location",
+                    },
+                  })
+                  .exec((error, userProfiles) => {
+                    if (error) {
+                      throw error;
+                    } else {
+                      getMatchedResults(userProfile, userProfiles, res);
+                    }
+                  });
               }
             });
         }
