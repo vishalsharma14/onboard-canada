@@ -1,4 +1,5 @@
 import Chat from "../models/Chat";
+import { getPresignedUrl, uploadFile } from "../helpers/fileUpload";
 
 export default {
 
@@ -50,6 +51,46 @@ export default {
         res.status(201).json(chat);
       }
     });
+  },
+
+  /**
+   * API to post new file in a chat group
+   * @param {*} req Request Object
+   * @param {*} res Response Object
+   * Sample Data Payload: {"file": Attached File}
+   */
+  attachFile(req, res) {
+    const userId = req.decoded.id;
+    const { chatGroup } = req.params;
+    uploadFile(req.file).then((response) => {
+      if (response.success !== true) {
+        res.json(response);
+        return;
+      }
+      const chat = new Chat();
+      chat.chatGroup = chatGroup;
+      chat.sender = userId;
+      chat.file = response.fileName;
+
+      chat.save((err) => {
+        if (err) {
+          throw err;
+        } else {
+          res.status(201).json(chat);
+        }
+      });
+    });
+  },
+
+  /**
+   * API to get pre signed URL for the file
+   * @param {*} req Request Object
+   * @param {*} res Response Object
+   */
+  getfileUrl(req, res) {
+    const { fileName } = req.params;
+    const fileUrl = getPresignedUrl(fileName);
+    res.json(fileUrl);
   },
 
 };

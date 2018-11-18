@@ -4,10 +4,12 @@ const ChatSchema = new mongoose.Schema({
   chatGroup: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "ChatGroup",
+    required: true,
   },
   sender: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   message: {
     type: mongoose.Schema.Types.String,

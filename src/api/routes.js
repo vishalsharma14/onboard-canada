@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 
 import authenticate from "./middlewares/authenticate";
 import BuddyController from "./controllers/BuddyController";
@@ -10,15 +11,18 @@ import MessageController from "./controllers/MessageController";
 import UserController from "./controllers/UserController";
 import UserProfileController from "./controllers/UserProfileController";
 
+// To get form-data file in req object
+const upload = multer();
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
   res.send("Empty like your soul!");
 });
 
-
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
+
 router.use(authenticate);
 
 router.get("/users", UserController.users);
@@ -50,5 +54,11 @@ router.route("/chat")
 router.route("/chat/:chatGroup/message")
   .get(MessageController.getChatGroupMessages)
   .post(MessageController.postChatGroupMessage);
+
+router.route("/chat/:chatGroup/file")
+  .post(upload.single("file"), MessageController.attachFile);
+
+router.route("/file/:fileName")
+  .get(MessageController.getfileUrl);
 
 export default router;
