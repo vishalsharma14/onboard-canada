@@ -1,5 +1,5 @@
 import UserProfile from "../models/UserProfile";
-
+import UserSettings from "../models/UserSettings";
 
 export default {
   getProfile(req, res) {
@@ -52,6 +52,42 @@ export default {
             res.json(userProfile);
           }
         });
+      }
+    });
+  },
+
+  getUserProfile(req, res) {
+    const profileUserId = req.params.userId;
+    UserSettings.findOne({ user: profileUserId }).exec((err, userSettings) => {
+      if (err) {
+        throw err;
+      } else {
+        let excluded = "";
+        let selectedUserFields = "name";
+        if (userSettings) {
+          excluded += (userSettings.settings.mobile === false ? "-mobile" : "");
+          excluded += (userSettings.settings.facebookUrl === false ? " -facebookUrl" : "");
+          selectedUserFields += (userSettings.settings.email === false ? "" : " email");
+        } else {
+          excluded = "-mobile -facebookUrl";
+        }
+        UserProfile.findOne({ user: profileUserId })
+          .populate({ path: "user", select: selectedUserFields })
+          .populate("origin")
+          .populate({
+            path: "institution",
+            populate: {
+              path: "location",
+            },
+          })
+          .select(excluded)
+          .exec((error, userProfile) => {
+            if (error) {
+              throw error;
+            } else {
+              res.json(userProfile);
+            }
+          });
       }
     });
   },

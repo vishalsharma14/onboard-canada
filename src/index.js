@@ -2,7 +2,10 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
+// import passport from "passport";
 import cors from "cors";
+// import { Strategy } from "passport-facebook";
 
 import config from "./config";
 import router from "./api/routes";
@@ -22,6 +25,16 @@ app.use(bodyParser.json());
 
 
 app.use("/", router);
+// app.use(passport.initialize());
+
+// passport.use(new Strategy({
+//   clientID: process.env.FACEBOOK_APP_ID,
+//   clientSecret: process.env.FACEBOOK_APP_SECRET,
+//   callbackURL: "http://localhost:8080/auth/facebook/callback"
+// }, (accessToken, refreshToken, profile, done) => {
+//   console.log("hereeee", accessToken, refreshToken, profile);
+//   done(null);
+// }));
 
 // Catch unhandled exception and log/report errors
 // Prevents node server from stopping

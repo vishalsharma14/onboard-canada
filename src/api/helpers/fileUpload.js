@@ -1,4 +1,7 @@
 import AWS from "aws-sdk";
+import dotenv from "dotenv";
+
+dotenv.load();
 
 const BUCKET_NAME = "oacademy";
 const PRESIGNED_URL_EXPIRY_TIME = 60 * 5;
@@ -23,7 +26,7 @@ export const getPresignedUrl = (fileName) => {
 
 export const uploadFile = (file) => {
   return new Promise((resolve, reject) => {
-    const bufferData = Buffer.from(file.buffer.toString("utf-8"));
+    const bufferData = file.buffer;
     const fileName = `${Date.now()}-${file.originalname}`;
 
     const params = {
@@ -45,6 +48,7 @@ export const uploadFile = (file) => {
           error: err,
         });
       }
+      console.log("FILEE", params);
 
       if (data) {
         resolve({
