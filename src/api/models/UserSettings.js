@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 
 const UserSettingsSchema = new mongoose.Schema({
-  origin: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Location",
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

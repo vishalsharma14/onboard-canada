@@ -3,7 +3,7 @@ import { verify } from "../helpers/jwt";
 export default function (req, res, next) {
   const token = req.body.token || req.body.query || req.headers.authorization;
   if (token) {
-    const tokenObject = verify(token);
+    const tokenObject = verify(token.replace("Bearer ", ""));
     if (tokenObject.isVerified) {
       req.decoded = tokenObject.decoded;
       next();

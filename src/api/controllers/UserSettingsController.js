@@ -2,6 +2,30 @@ import UserSettings from "../models/UserSettings";
 
 
 export default {
+
+  getUserSettings(req, res) {
+    const userId = req.decoded.id.toString();
+    const reqData = req.body;
+
+    UserSettings.findOne({ user: userId }).exec((err, userSettings) => {
+      if (err) {
+        throw err;
+      } else if (userSettings) {
+        res.json(userSettings);
+      } else {
+        const userSettingsObj = new UserSettings();
+        userSettingsObj.user = userId;
+        userSettingsObj.save((error) => {
+          if (error) {
+            throw error;
+          } else {
+            res.status(200).json(userSettingsObj);
+          }
+        });
+      }
+    });
+  },
+
   updateUserSettings(req, res) {
     const userId = req.decoded.id.toString();
     const reqData = req.body;

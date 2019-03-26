@@ -7,13 +7,13 @@ const BUCKET_NAME = "oacademy";
 const PRESIGNED_URL_EXPIRY_TIME = 60 * 5;
 
 const MAX_FILE_SIZE = 1000 * 1000 * 1; // 1 MB
-const s3 = new AWS.S3();
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET,
 });
 
+const s3 = new AWS.S3();
 
 export const getPresignedUrl = (fileName) => {
   const url = s3.getSignedUrl("getObject", {

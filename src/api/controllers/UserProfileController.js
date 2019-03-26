@@ -60,6 +60,7 @@ export default {
     const profileUserId = req.params.userId;
     UserSettings.findOne({ user: profileUserId }).exec((err, userSettings) => {
       if (err) {
+        res.status(400).json({ message: "Invalid user id" });
         throw err;
       } else {
         let excluded = "";
@@ -83,7 +84,10 @@ export default {
           .select(excluded)
           .exec((error, userProfile) => {
             if (error) {
+              res.status(400).json({ message: "Invalid user id" });
               throw error;
+            } else if (!userProfile) {
+              return res.status(400).json({ message: "Invalid user id" });
             } else {
               res.json(userProfile);
             }

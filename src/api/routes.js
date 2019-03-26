@@ -1,11 +1,12 @@
-// import passport from "passport";
 import express from "express";
 import multer from "multer";
-
 import authenticate from "./middlewares/authenticate";
+import facebook from "./middlewares/facebook";
+
 import BuddyController from "./controllers/BuddyController";
 import ChatGroupController from "./controllers/ChatGroupController";
 import FeedbackController from "./controllers/FeedbackController";
+import AuthController from "./controllers/AuthController";
 import InstitutionController from "./controllers/InstitutionController";
 import LocationController from "./controllers/LocationController";
 import MatchController from "./controllers/MatchController";
@@ -14,18 +15,23 @@ import UserController from "./controllers/UserController";
 import UserProfileController from "./controllers/UserProfileController";
 import UserSettingsController from "./controllers/UserSettingsController";
 
+import DataController from "./controllers/DataController";
+
 // To get form-data file in req object
 const upload = multer();
 
 const router = express.Router();
 
-// router.get("/auth/facebook", passport.authenticate("facebook"));
+router.get("/seed", DataController.seedCityData);
 
-// router.get('/auth/facebook/callback',
-//   passport.authenticate('facebook', {
-//     successRedirect: '/login',
-//     failureRedirect: '/login'
-//   }));
+router.post("/auth/facebook", facebook, AuthController.facebook);
+
+router.get("/facebook", (req, res) => {
+  res.redirect("https://www.facebook.com/v3.2/dialog/oauth?client_id=611081999307305&redirect_uri=http://localhost:8080/auth/callback&state=abcdef");
+});
+
+router.get("/auth/callback", facebook, AuthController.facebook);
+
 
 router.get("/", (req, res) => {
   res.send("Empty like your soul!");
@@ -75,6 +81,8 @@ router.route("/file/:fileName")
 
 router.post("/feedback", FeedbackController.saveFeedback);
 
-router.post("/user-settings", UserSettingsController.updateUserSettings);
+router.route("/user-settings")
+  .get(UserSettingsController.getUserSettings)
+  .post(UserSettingsController.updateUserSettings);
 
 export default router;
