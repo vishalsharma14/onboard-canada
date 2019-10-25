@@ -1,1 +1,1 @@
-web: gulp build && node dist/index.js
+web: npm install -g gulp && npm install babel-cli && gulp build && node dist/index.js
