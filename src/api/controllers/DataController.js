@@ -1,5 +1,7 @@
 import Location from "../models/Location";
-import indiaCityList from "../../../City List/india.json";
+// import indiaCityList from "../../../City List/india.json";
+
+const indiaCityList = [];
 
 export default {
 
