@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.load();
 
-const BUCKET_NAME = "oacademy";
+const BUCKET_NAME = "onboard-canada";
 const PRESIGNED_URL_EXPIRY_TIME = 60 * 5;
 
 const MAX_FILE_SIZE = 1000 * 1000 * 1; // 1 MB

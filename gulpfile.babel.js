@@ -16,11 +16,11 @@ const paths = {
 };
 
 gulp.task("default", (cb) => {
-  run("server", "build", "watch", cb);
+  run("server", "build", "restart", "watch", cb);
 });
 
 gulp.task("build", (cb) => {
-  run("clean", "lint", "babel", "restart", cb);
+  run("clean", "lint", "babel", cb);
 });
 
 gulp.task("clean", (cb) => {
